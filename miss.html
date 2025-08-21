@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Special Surprise</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to top right, #ffe6eb, #ffd6f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      max-width: 500px;
+      display: none;
+    }
+
+    .gift-screen {
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .gift-box {
+      position: relative;
+      margin: 30px auto 20px;
+      width: 120px;
+      height: 120px;
+      background: #ff69b4;
+      border-radius: 10px;
+      animation: bounce 1s infinite alternate;
+    }
+
+    .gift-box::before,
+    .gift-box::after {
+      content: '';
+      position: absolute;
+      background: #fff;
+    }
+
+    .gift-box::before {
+      top: 0;
+      left: 50%;
+      width: 20px;
+      height: 120px;
+      transform: translateX(-50%);
+    }
+
+    .gift-box::after {
+      top: 50%;
+      left: 0;
+      width: 120px;
+      height: 20px;
+      transform: translateY(-50%);
+    }
+
+    .lid {
+      position: absolute;
+      top: -30px;
+      width: 120px;
+      height: 30px;
+      background: #ff69b4;
+      border-radius: 5px;
+      animation: openLid 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-10px); }
+    }
+
+    @keyframes openLid {
+      from { transform: rotate(0); }
+      to { transform: rotate(-10deg) translate(-5px, -5px); }
+    }
+
+    .gift-screen button {
+      padding: 12px 24px;
+      background-color: #ff66a3;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    h1 {
+      font-size: 2em;
+      color: #ff4d88;
+    }
+
+    .proposal {
+      font-size: 1.3em;
+      margin: 20px 0;
+      color: #333;
+    }
+
+    .buttons {
+      margin-top: 30px;
+      position: relative;
+      height: 60px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .yes {
+      background-color: #ff66a3;
+      color: white;
+      margin-right: 15px;
+    }
+
+    .no {
+      background-color: #cccccc;
+      color: #333;
+      position: absolute;
+      transition: all 0.4s ease;
+    }
+
+    .heart {
+      font-size: 40px;
+      color: red;
+      animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.2); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🎁 Gift Screen -->
+  <div class="gift-screen" id="giftScreen">
+    <div class="gift-box">
+      <div class="lid"></div>
+    </div>
+    <h2>Would you like to open this gift?</h2>
+    <button onclick="openGift()">Yes 🎁</button>
+  </div>
+
+  <!-- 💖 Proposal Container -->
+  <div class="container" id="proposalContainer">
+    <div class="heart">❤️</div>
+    <h1>Hey Crush 😊</h1>
+    <div class="proposal">Will you be mine forever?</div>
+    <div class="buttons">
+      <button class="btn yes" onclick="sayYes()">Yes 💖</button>
+      <button class="btn no" id="noBtn" onclick="sayNo()">No 😢</button>
+    </div>
+  </div>
+
+  <script>
+    function openGift() {
+      document.getElementById('giftScreen').style.display = 'none';
+      document.getElementById('proposalContainer').style.display = 'block';
+    }
+
+    const noBtn = document.getElementById("noBtn");
+    let hoverCount = 0;
+
+    noBtn.addEventListener("mouseover", () => {
+      hoverCount++;
+      if (hoverCount <= 3) {
+        const x = Math.floor(Math.random() * 200) - 100;
+        const y = Math.floor(Math.random() * 100) - 50;
+        noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      } else {
+        noBtn.innerText = "Yes 💖";
+        noBtn.classList.remove("no");
+        noBtn.classList.add("yes");
+        noBtn.style.transform = "translate(0, 0)";
+        noBtn.onclick = sayYes;
+        noBtn.onmouseover = null;
+      }
+    });
+
+    function sayYes() {
+      document.querySelector(".container").innerHTML = `
+        <h1>Yaaay! 💍</h1>
+        <div class="heart">💖💖💖</div>
+        <p style="font-size: 1.3em; color: #444;">You just made someone the happiest person alive! 😊</p>
+      `;
+    }
+
+    function sayNo() {
+      alert("Aww... don't break the heart 😢");
+    }
+  </script>
+
+</body>
+</html>
